@@ -19,7 +19,6 @@ const mongoose = require("mongoose");
 EXPRESS MODULE
 ======================*/
 const app = require("./app");
-const port = process.env.PORT;
 
 
 
@@ -34,9 +33,7 @@ mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true , useUnifiedT
 
         console.log("Connection established successfully.")
 
-        app.listen(port, function() {
-            console.log("API Running in:" + port)
-        })
+        app.listen(process.env.PORT || 80)
         
     } catch (error) {
 
