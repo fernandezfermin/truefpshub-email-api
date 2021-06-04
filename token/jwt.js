@@ -24,6 +24,5 @@ exports.verifyToken = function (req, res, next){
           req.token  = bearerToken;
           next();
      }else{
-         res.sendStatus(403);
-     }
+        res.status(403).send({ message: "Trouble verifying token." })     }
 }
