@@ -4,26 +4,7 @@
 const Emails = require("../models/emails.model.js");
 const validator = require('validator');
 
-
-function getClientIp(req) {
-  var ipAddress;
-  // Amazon EC2 / Heroku workaround to get real client IP
-  var forwardedIpsStr = req.header('x-forwarded-for'); 
-  if (forwardedIpsStr) {
-    // 'x-forwarded-for' header may return multiple IP addresses in
-    // the format: "client IP, proxy 1 IP, proxy 2 IP" so take the
-    // the first one
-    var forwardedIps = forwardedIpsStr.split(',');
-    ipAddress = forwardedIps[0];
-  }
-  if (!ipAddress) {
-    // Ensure getting client IP address still works in
-    // development environment
-    ipAddress = req.connection.remoteAddress;
-  }
-  return ipAddress;
-};
-
+const request_ip = require("../middlewares/clientIp.js");
 
 
 
@@ -36,8 +17,8 @@ const jwt = require("jsonwebtoken");
 /*=====================
 ROUTE TO ENABLE SESSION
 =======================*/
-function sessionEnabler(req, res) {
-  const clientIp = req.ip;
+  function sessionEnabler(req, res) {
+  const clientIp = request_ip.getClientIp(req);
 
   res.status(200).send({
     token: md_token.createToken(clientIp),
@@ -55,7 +36,7 @@ function submitEmail (req, res) {
   let emails = new Emails();
  
   emails.email = req.body.email;
-  emails.clientIp = getClientIp(req);
+  emails.clientIp = request_ip.getClientIp(req);
 
   //Validate if emails exists
   Emails.findOne({ email: emails.email }, (err, user) => {
