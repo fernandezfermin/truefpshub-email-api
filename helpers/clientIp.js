@@ -1,8 +1,4 @@
-"use strict"
-
-
-
-exports.getClientIp = function(req) {
+function getClientIp(req) {
     
     var ipAddress;
     // Amazon EC2 / Heroku workaround to get real client IP
@@ -23,3 +19,8 @@ exports.getClientIp = function(req) {
   };
   
   
+module.exports = {
+
+  getClientIp
+
+}

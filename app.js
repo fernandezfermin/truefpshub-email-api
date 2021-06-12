@@ -4,6 +4,14 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
+const helmet = require('helmet');
+
+
+/*=============================================
+SECURITY AND VULNERABILITY PROTECTION
+=============================================*/
+app.use(helmet());
+
 
 
 /*=============================================
@@ -32,9 +40,22 @@ BASE ROUTES
 app.use("/api", emailsRoute);
 
 
+/*=============================================
+DEFAULT ERROR HANDLER
+=============================================*/
 
+app.use((err, req, res, next) => {
+  // This is necessary to detect any unmatched routes that should be a 404
+  if (!err) {
+    return next()
+  }else{
+    //res.sendStatus(400,err);
+    res.status(400).send({ message: "Bad request" });
+  }
 
+  
+})
 
-
+app.use((req, res) => res.sendStatus(404));
 
 module.exports = app;
