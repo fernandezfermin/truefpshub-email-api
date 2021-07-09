@@ -23,7 +23,7 @@ npm start
 ```
 
 # Setup .env file 
-
+Open .env file on code editor and copy the code below :
 ```
 # Mongo DB
 # Local development
