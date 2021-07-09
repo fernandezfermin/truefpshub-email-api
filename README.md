@@ -21,6 +21,19 @@ cd truefpshub-email-api
 npm install
 npm start
 ```
+
+# Setup .env file 
+
+```
+# Mongo DB
+# Local development
+DATABASE_URL="mongodb://localhost:27017/emailapi"
+
+# JSON web token (JWT) secret
+SECRET_PASSWORD=email-api_secret_token
+
+```
+
 ## Tech🛠️
 
 This project uses:
